@@ -1,3 +1,6 @@
+// These warnings disabled to quiet down compilation, since we're not about to
+// muck with the code itself.
+#pragma warning ( disable : 4267 4244 4996 4018 4013 )
 /*=                    -*- c-basic-offset: 4; indent-tabs-mode: nil; -*-
  *
  * librsync -- library for network deltas
@@ -35,6 +38,25 @@
  * or something else depending on the platform.  On WIN32, many config.h's
  * define LONG_LONG as "__int64".
  */
+
+ /********************************************************************
+*********************************************************************
+    WINDOWS
+*********************************************************************
+********************************************************************/
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+ typedef  __int64 rs_long_t;
+
+/********************************************************************
+*********************************************************************
+    MAC
+*********************************************************************
+********************************************************************/    
+#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 typedef long long    rs_long_t;
+
+#else
+    #error Undefined platform
+#endif
 
 #endif /* _LIBRSYNC_CONFIG_H */
